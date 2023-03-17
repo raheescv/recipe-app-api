@@ -23,8 +23,8 @@ class CommandTests(SimpleTestCase):
     @patch("time.sleep")
     def test_wait_for_db_delay(self, patched_sleep, patched_check):
         """Test Waiting for the database when getting OperationalErrors."""
-        patched_check.side_effect = [MysqlError] * 2 + [OperationalError] * 3 + [True]
+        patched_check.side_effect = [MysqlError] * 1 + [OperationalError] * 1 + [True]
 
         call_command("wait_for_db")
-        self.assertEqual(patched_check.call_count, 6)
+        self.assertEqual(patched_check.call_count, 3)
         patched_check.assert_called_with(databases=["default"])
